@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace Advance.Net.p01ado.net
 {
+    /** 
+    * apppy CRUD operationsat MySQL database.
+    */
     public class CrudOparetion
     {
-        public void Update()
+        /**
+        * Update a record in the database
+        */
+        public void Update( Marskheet bean )
         {
             string cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;";
 
