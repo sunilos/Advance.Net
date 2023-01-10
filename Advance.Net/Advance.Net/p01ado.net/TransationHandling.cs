@@ -5,65 +5,38 @@ namespace Advance.Net.p01ado.net
 {
     public class TransationHandling
     {
-        /*public static void Test()
-        {
-            string connString = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP";
-            MySqlConnection conn = new MySqlConnection(connString);
-            
-            conn.Open(); //Open a connection befole Begin Transaction
-            
-            MySqlTransaction trn = conn.BeginTransaction(); //Trn Start
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO PART VALUES(6, 'Pen', 'Yellow', 6)", conn, trn);
-            
-            int i = cmd.ExecuteNonQuery();
-            
-            MySqlCommand cmd1 = new MySqlCommand("INSERT INTO PART VALUES(7,'SCREW', 'SILVER', 7)", conn, trn);
-            i = cmd1.ExecuteNonQuery();
-            
-            trn.Commit(); //trn.Rollback();
-            conn.Close();
-
-            Console.WriteLine("Transation Handled");*/
-
-
         public static void RunTransaction(string myConnString)
         {
-            MySqlConnection myConnection = new MySqlConnection(myConnString);
-            myConnection.Open();
+            MySqlConnection conn = new MySqlConnection(myConnString);
+            conn.Open();
 
-            MySqlCommand myCommand = myConnection.CreateCommand();
-            MySqlTransaction myTrans;
-
+            MySqlCommand cmd = conn.CreateCommand();
             // Start a local transaction
-            myTrans = myConnection.BeginTransaction();
+            MySqlTransaction tx = conn.BeginTransaction();
             // Must assign both transaction object and connection
             // to Command object for a pending local transaction
-            myCommand.Connection = myConnection;
-            myCommand.Transaction = myTrans;
+           
 
             try
             {
-                myCommand.CommandText = "insert into part VALUES (8, 'Lipstick', 'pink', 8)";
-                myCommand.ExecuteNonQuery();
-                myCommand.CommandText = "insert into part VALUES (9, 'Bluetooth', 'Levander', 9)";
-                myCommand.ExecuteNonQuery();
-                myTrans.Commit();
+                cmd.CommandText = "insert into part VALUES (10, 'Marker', 'Blue', 10)";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = "insert into part VALUES (11, 'Pins', 'Red', 11)";
+                cmd.ExecuteNonQuery();
+                tx.Commit();
                 Console.WriteLine("Both records are written to database.");
             }
             catch (Exception e)
             {
-                try
+
+                tx.Rollback();
+
+                if (tx.Connection != null)
                 {
-                    myTrans.Rollback();
+                    Console.WriteLine("An exception of type " + 
+                    " was encountered while attempting to roll back the transaction.");
                 }
-                catch (MySqlException ex)
-                {
-                    if (myTrans.Connection != null)
-                    {
-                        Console.WriteLine("An exception of type " + ex.GetType() +
-                        " was encountered while attempting to roll back the transaction.");
-                    }
-                }
+
 
                 Console.WriteLine("An exception of type " + e.GetType() +
                 " was encountered while inserting the data.");
@@ -71,7 +44,7 @@ namespace Advance.Net.p01ado.net
             }
             finally
             {
-                myConnection.Close();
+                conn.Close();
             }
         }
     }

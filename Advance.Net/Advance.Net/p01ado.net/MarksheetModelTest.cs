@@ -22,8 +22,6 @@
             bean.setMaths(99);
 
             model.Add(bean);
-
-            Console.WriteLine("Record Inserted");
         }
     }
 }
