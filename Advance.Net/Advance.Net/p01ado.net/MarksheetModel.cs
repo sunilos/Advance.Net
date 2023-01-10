@@ -17,8 +17,11 @@ namespace Advance.Net.p01ado.net
         
         public void Update(MarksheetBean bean)
         {
+            String sql = "update marksheet set rollNo = @rn where id = @id";
             conn.Open();
-            MySqlCommand cm = new MySqlCommand("update marksheet set rollNo = '?' where id = '?'", conn);
+            MySqlCommand cm = new MySqlCommand(sql, conn);
+            cm.Parameters.Add(new SQlParameters( "rn","RN01"));
+            
             MySqlTransaction tx = conn.BeginTransaction();
             try
             {
