@@ -4,45 +4,31 @@ namespace Advance.Net.p01ado.net
 {
     public class MarksheetModel
     {
+        private static const String cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;"; 
         /**
          * Update a record in the database.
          */
 
+        private MySqlConnection conn = null;
+        
+        public MarksheetModel(){
+              MySqlConnection conn = new MySqlConnection(cs);
+        }
+        
         public void Update(MarksheetBean bean)
         {
-            string cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;";
-
-            MySqlConnection conn = new MySqlConnection(cs);
             conn.Open();
             MySqlCommand cm = new MySqlCommand("update marksheet set rollNo = '?' where id = '?'", conn);
             MySqlTransaction tx = conn.BeginTransaction();
-
             try
             {
-                cm.ExecuteNonQuery();
-                // Displaying a message  
-                Console.WriteLine("Record Updated Successfully");
+                cm.ExecuteNonQuery(); // record is updated 
             }
             catch (Exception e)
             {
-
                 tx.Rollback();
-
-                if (tx.Connection != null)
-                {
-                    Console.WriteLine("An exception of type " +
-                    " was encountered while attempting to roll back the transaction.");
-                }
-
-
-                Console.WriteLine("An exception of type " + e.GetType() +
-                            " was encountered while inserting the data.");
-                Console.WriteLine("Neither record was written to database.");
             }
-            finally
-            {
-                conn.Close();
-            }
+            conn.Close();
         }
         /**
          * Delete a record in the database.
