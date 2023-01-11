@@ -5,42 +5,41 @@ namespace Advance.Net.p01ado.net
 {
     public class TestDataSet
     {
+        private const string cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;"; //connection string
+
         public static void Test()
         {
-            string connectionString = "Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP"; //connection string
+            MySqlConnection conn = new MySqlConnection(cs);  //creates connection
 
-            MySqlConnection mySqlConnection = new MySqlConnection(connectionString);  //creates connection
+            string sql = "Select id,name,color,unit_id FROM part";  //selects fields to be accessed
 
-            string selectString = "Select id,name,color,unit_id FROM part";  //selects fields to be accessed
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = sql;
 
-            MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+            MySqlDataAdapter dataAdapter = new MySqlDataAdapter();
+            dataAdapter.SelectCommand = cmd;
 
-            mySqlCommand.CommandText = selectString;
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter();
+            DataSet ds = new DataSet();  //creates data set
 
-            mySqlDataAdapter.SelectCommand = mySqlCommand;
-
-            DataSet test1DataSet = new DataSet();  //creates data set
-
-            mySqlConnection.Open();   // opens connection
+            conn.Open();   // opens connection
 
             Console.WriteLine("Retrieving rows from the test table");
 
-            string dataTableName = "part";
-            mySqlDataAdapter.Fill(test1DataSet, dataTableName);
+            string part = "part";
+            dataAdapter.Fill(ds, part);
 
-            DataTable myDataTable = test1DataSet.Tables[dataTableName];  //i get an error here
+            DataTable dt = ds.Tables[part];  //i get an error here
 
-            foreach (DataRow myDataRow in myDataTable.Rows)  //iterates over rows in table
+            foreach (DataRow dr in dt.Rows)  //iterates over rows in table
             {
 
-                /*Console.WriteLine("id") = + myDataRow[("id")];  // i had to comment out this region because also get an error, but this is not my doubt right now
-                Console.WriteLine("name") = + myDataRow[("name")];
-                Console.WriteLine("color") = + myDataRow[("color")];
-                Console.WriteLine("unit_id") = +myDataRow[("unit_id")];*/
+                Console.WriteLine("id" + dr[("id")]);  // i had to comment out this region because also get an error, but this is not my doubt right now
+                Console.WriteLine("name" + dr[("name")]);
+                Console.WriteLine("color" + dr[("color")]);
+                Console.WriteLine("unit_id" + dr[("unit_id")]);
             }
 
-            mySqlConnection.Close();  //close connection
+            conn.Close();  //close connection
         }
     }
 }

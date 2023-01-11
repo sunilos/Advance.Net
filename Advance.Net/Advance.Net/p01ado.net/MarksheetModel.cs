@@ -4,45 +4,52 @@ namespace Advance.Net.p01ado.net
 {
     public class MarksheetModel
     {
-        private static const String cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;"; 
+        private const string cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;";  // MySqlConnection
+
+
+        //private const string cs = @"Data Source=localhost;Initial Catalog=raystech;User ID=root;Password=root;port=3307";  // MS SqlConnection 
+
+
+        private MySqlConnection conn = new MySqlConnection(cs);
+
         /**
          * Update a record in the database.
          */
 
-        private MySqlConnection conn = null;
-        
-        public MarksheetModel(){
-              MySqlConnection conn = new MySqlConnection(cs);
-        }
-        
-        public void Update(MarksheetBean bean)
+        public void Update(Marksheet bean)
         {
-            String sql = "update marksheet set rollNo = @rn where id = @id";
+            string sql = "update marksheet set rollNo = @rollno where id = @id";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
-            cm.Parameters.Add(new SQlParameters( "rn","RN01"));
-            
+            cm.Parameters.Add(new MySqlParameter("rollno", "sk2002"));
+            cm.Parameters.Add(new MySqlParameter("id", 2));
             MySqlTransaction tx = conn.BeginTransaction();
+
             try
             {
-                cm.ExecuteNonQuery(); // record is updated 
+                cm.ExecuteNonQuery();
+                // Displaying a message  
+                Console.WriteLine("Record Updated Successfully");
+                tx.Commit();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 tx.Rollback();
             }
-            conn.Close();
+            finally
+            {
+                conn.Close();
+            }
         }
         /**
          * Delete a record in the database.
          */
-        public void Delete(MarksheetBean bean)
+        public void Delete(Marksheet bean)
         {
-            string cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;";
-
-            MySqlConnection conn = new MySqlConnection(cs);
+            string sql = "delete from marksheet where id = @id";
             conn.Open();
-            MySqlCommand cm = new MySqlCommand("delete from marksheet where id = '?'", conn);
+            MySqlCommand cm = new MySqlCommand(sql, conn);
+            cm.Parameters.Add(new MySqlParameter("id", 2));
             MySqlTransaction tx = conn.BeginTransaction();
 
             try
@@ -50,22 +57,11 @@ namespace Advance.Net.p01ado.net
                 cm.ExecuteNonQuery();
                 // Displaying a message  
                 Console.WriteLine("Record Deleted Successfully");
+                tx.Commit();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 tx.Rollback();
-
-                if (tx.Connection != null)
-                {
-                    Console.WriteLine("An exception of type " +
-                    " was encountered while attempting to roll back the transaction.");
-                }
-
-
-                Console.WriteLine("An exception of type " + e.GetType() +
-                            " was encountered while inserting the data.");
-                Console.WriteLine("Neither record was written to database.");
             }
             finally
             {
@@ -75,35 +71,31 @@ namespace Advance.Net.p01ado.net
         /**
          * Add a record in the database.
          */
-        public void Add(MarksheetBean bean)
+        public void Add(Marksheet bean)
         {
-            string cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;";
-
-            MySqlConnection conn = new MySqlConnection(cs);
+            string sql = "INSERT INTO MARKSHEET values (@id,@rollno,@fname,@lname,@physics,@chemistry,@maths)";
             conn.Open();
-            MySqlCommand cm = new MySqlCommand("INSERT INTO MARKSHEET (id,rollno,fname,lname,physics,chemistry,maths) VALUES(" + bean.getId() + ",'" + bean.getRollNo() + "','" + bean.getFName() + "','" + bean.getLName() + "'," + bean.getPhysics() + "," + bean.getChemistry() + "," + bean.getMaths() + ")", conn);
+            MySqlCommand cm = new MySqlCommand(sql, conn);
+
+            cm.Parameters.Add(new MySqlParameter("id", 2));
+            cm.Parameters.Add(new MySqlParameter("rollno", "sk02"));
+            cm.Parameters.Add(new MySqlParameter("fname", "Vaibhav"));
+            cm.Parameters.Add(new MySqlParameter("lname", "Gehlot"));
+            cm.Parameters.Add(new MySqlParameter("physics", 78));
+            cm.Parameters.Add(new MySqlParameter("chemistry", 65));
+            cm.Parameters.Add(new MySqlParameter("maths", 92));
             MySqlTransaction tx = conn.BeginTransaction();
             try
             {
                 cm.ExecuteNonQuery();
                 // Displaying a message  
                 Console.WriteLine("Record Inserted Successfully");
+                tx.Commit();
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.Message);
                 tx.Rollback();
-
-                if (tx.Connection != null)
-                {
-                    Console.WriteLine("An exception of type " +
-                    " was encountered while attempting to roll back the transaction.");
-                }
-
-
-                Console.WriteLine("An exception of type " + e.GetType() +
-                " was encountered while inserting the data.");
-                Console.WriteLine("Neither record was written to database.");
             }
             finally
             {
@@ -113,13 +105,12 @@ namespace Advance.Net.p01ado.net
         /**
          * Display a record in the database.
          */
-        public void Display(MarksheetBean bean)
+        public void Display(Marksheet bean)
         {
-            string cs = @"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP;";
-
-            MySqlConnection conn = new MySqlConnection(cs);
+            string sql = "Select * from marksheet";
             conn.Open();
-            MySqlCommand cm = new MySqlCommand("Select * from marksheet", conn);
+            
+            MySqlCommand cm = new MySqlCommand(sql, conn);
             MySqlTransaction tx = conn.BeginTransaction();
             try
             {
@@ -128,26 +119,15 @@ namespace Advance.Net.p01ado.net
                 while (sdr.Read())
                 {
                     // Displaying Record  
-                    Console.WriteLine(sdr["id"] + " " + sdr["fname"] + " " + sdr["lname"]);
+                    Console.WriteLine(sdr["id"] + " " + sdr["rollno"] + " " + sdr["fname"] + " " + sdr["lname"] + sdr["physics"] + " " + sdr["chemistry"] + " " + sdr["maths"]);
                 }
-
                 Console.WriteLine("Record Display Successfully");
+                tx.Commit();
             }
             catch (Exception e)
             {
-
                 tx.Rollback();
-
-                if (tx.Connection != null)
-                {
-                    Console.WriteLine("An exception of type " +
-                    " was encountered while attempting to roll back the transaction.");
-                }
-
-
-                Console.WriteLine("An exception of type " + e.GetType() +
-                " was encountered while inserting the data.");
-                Console.WriteLine("Neither record was written to database.");
+                Console.WriteLine(e.Message);
             }
             finally
             {

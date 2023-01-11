@@ -20,8 +20,9 @@ namespace Advance.Net
             //TransationHandling.Test();
             //TransationHandling.RunTransaction(@"Host=localhost;database=raystech;Userid=root;Password=root;port=3307;protocol=TCP");
             //TestDataSet1.Test();
-            MarksheetModelTest.Test();
-            //StoredProcedures.Test("Shubham", "Indore", "Mushakhedi");
+            //TestDataSet.Test();
+            //MarksheetModelTest.Test();
+            StoredProcedures.Test("Shubham", "Indore", "Mushakhedi");
         }
     }
 }
