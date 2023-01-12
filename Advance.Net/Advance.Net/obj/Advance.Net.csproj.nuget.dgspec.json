@@ -55,6 +55,10 @@
             "MySqlConnector": {
               "target": "Package",
               "version": "[2.3.0-beta.1, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.13.3, )"
             }
           },
           "imports": [

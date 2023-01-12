@@ -51,3 +51,4 @@ C:\Users\ASUS\Advance.Net\Advance.Net\obj\Debug\net6.0\refint\Advance.Net.dll
 C:\Users\ASUS\Advance.Net\Advance.Net\obj\Debug\net6.0\Advance.Net.pdb
 C:\Users\ASUS\Advance.Net\Advance.Net\obj\Debug\net6.0\Advance.Net.genruntimeconfig.cache
 C:\Users\ASUS\Advance.Net\Advance.Net\obj\Debug\net6.0\ref\Advance.Net.dll
+C:\Users\ASUS\Advance.Net\Advance.Net\bin\Debug\net6.0\nunit.framework.dll

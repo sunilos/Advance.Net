@@ -1,4 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
+using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Advance.Net.p01ado.net
 {
@@ -16,20 +19,18 @@ namespace Advance.Net.p01ado.net
          * Update a record in the database.
          */
 
-        public void Update(Marksheet bean)
+        public void Update(Marksheet marksheet)
         {
             string sql = "update marksheet set rollNo = @rollno where id = @id";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
-            cm.Parameters.Add(new MySqlParameter("rollno", "sk2002"));
-            cm.Parameters.Add(new MySqlParameter("id", 2));
+            cm.Parameters.Add(new MySqlParameter("rollno", marksheet.RollNo));
+            cm.Parameters.Add(new MySqlParameter("id", marksheet.Id));
             MySqlTransaction tx = conn.BeginTransaction();
 
             try
             {
                 cm.ExecuteNonQuery();
-                // Displaying a message  
-                Console.WriteLine("Record Updated Successfully");
                 tx.Commit();
             }
             catch (Exception)
@@ -44,19 +45,17 @@ namespace Advance.Net.p01ado.net
         /**
          * Delete a record in the database.
          */
-        public void Delete(Marksheet bean)
+        public void Delete(Marksheet marksheet)
         {
             string sql = "delete from marksheet where id = @id";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
-            cm.Parameters.Add(new MySqlParameter("id", 2));
+            cm.Parameters.Add(new MySqlParameter("id", marksheet.Id));
             MySqlTransaction tx = conn.BeginTransaction();
 
             try
             {
                 cm.ExecuteNonQuery();
-                // Displaying a message  
-                Console.WriteLine("Record Deleted Successfully");
                 tx.Commit();
             }
             catch (Exception)
@@ -71,25 +70,23 @@ namespace Advance.Net.p01ado.net
         /**
          * Add a record in the database.
          */
-        public void Add(Marksheet bean)
+        public void Add(Marksheet marksheet)
         {
             string sql = "INSERT INTO MARKSHEET values (@id,@rollno,@fname,@lname,@physics,@chemistry,@maths)";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
 
-            cm.Parameters.Add(new MySqlParameter("id", 2));
-            cm.Parameters.Add(new MySqlParameter("rollno", "sk02"));
-            cm.Parameters.Add(new MySqlParameter("fname", "Vaibhav"));
-            cm.Parameters.Add(new MySqlParameter("lname", "Gehlot"));
-            cm.Parameters.Add(new MySqlParameter("physics", 78));
-            cm.Parameters.Add(new MySqlParameter("chemistry", 65));
-            cm.Parameters.Add(new MySqlParameter("maths", 92));
+            cm.Parameters.Add(new MySqlParameter("id", marksheet.Id));
+            cm.Parameters.Add(new MySqlParameter("rollno", marksheet.RollNo));
+            cm.Parameters.Add(new MySqlParameter("fname", marksheet.FName));
+            cm.Parameters.Add(new MySqlParameter("lname", marksheet.LName));
+            cm.Parameters.Add(new MySqlParameter("physics", marksheet.Physics));
+            cm.Parameters.Add(new MySqlParameter("chemistry", marksheet.Chemistry));
+            cm.Parameters.Add(new MySqlParameter("maths", marksheet.Maths));
             MySqlTransaction tx = conn.BeginTransaction();
             try
             {
                 cm.ExecuteNonQuery();
-                // Displaying a message  
-                Console.WriteLine("Record Inserted Successfully");
                 tx.Commit();
             }
             catch (Exception e)
@@ -105,34 +102,61 @@ namespace Advance.Net.p01ado.net
         /**
          * Display a record in the database.
          */
-        public void Display(Marksheet bean)
+        public IList Search(Marksheet marksheet)
         {
             string sql = "Select * from marksheet";
             conn.Open();
             
             MySqlCommand cm = new MySqlCommand(sql, conn);
-            MySqlTransaction tx = conn.BeginTransaction();
             try
             {
                 MySqlDataReader sdr = cm.ExecuteReader();
+               
                 // Iterating Data  
                 while (sdr.Read())
                 {
                     // Displaying Record  
                     Console.WriteLine(sdr["id"] + " " + sdr["rollno"] + " " + sdr["fname"] + " " + sdr["lname"] + sdr["physics"] + " " + sdr["chemistry"] + " " + sdr["maths"]);
                 }
-                Console.WriteLine("Record Display Successfully");
-                tx.Commit();
             }
             catch (Exception e)
             {
-                tx.Rollback();
                 Console.WriteLine(e.Message);
             }
             finally
             {
                 conn.Close();
             }
+            return (IList)marksheet;
+        }
+
+        public Marksheet FindById(Marksheet marksheet)
+        {
+            string sql = "Select * from marksheet where id = @id";
+            conn.Open();
+
+            MySqlCommand cm = new MySqlCommand(sql, conn);
+            cm.Parameters.Add(new MySqlParameter("id", marksheet.Id));
+            try
+            {
+                MySqlDataReader sdr = cm.ExecuteReader();
+               
+                // Iterating Data  
+                while (sdr.Read())
+                {
+                    // Displaying Record  
+                    Console.WriteLine(sdr["id"] + " " + sdr["rollno"] + " " + sdr["fname"] + " " + sdr["lname"] + sdr["physics"] + " " + sdr["chemistry"] + " " + sdr["maths"]);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return marksheet;
         }
     }
 }
