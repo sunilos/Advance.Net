@@ -23,21 +23,21 @@ namespace Advance.Net.p01ado.net
 
             try
             {
-                long pk = 1l;
+                long pk = 1L;
                 m = model.findById(pk);
-                if (m.Id == 0)
+                if (m.iD == 0)
                 {
                     Console.WriteLine("Find By pk fail");
                 }
                 else 
                 {
-                    Console.Write(m.Id);
-                    Console.Write(m.RollNo);
-                    Console.Write(m.FName);
-                    Console.Write(m.LName);
-                    Console.Write(m.Physics);
-                    Console.Write(m.Chemistry);
-                    Console.Write(m.Maths);
+                    Console.Write(m.iD + "\t");
+                    Console.Write(m.rollNo + "\t");
+                    Console.Write(m.fName + "\t");
+                    Console.Write(m.lName + "\t");
+                    Console.Write(m.physics + "\t");
+                    Console.Write(m.chemistry + "\t");
+                    Console.WriteLine(m.maths + "\t");
                 }
             }
             catch (ApplicationException e)
@@ -51,7 +51,7 @@ namespace Advance.Net.p01ado.net
             Marksheet m = new Marksheet();
             MarksheetModel model = new MarksheetModel();
 
-            m.Id = 5;
+            m.iD = 5;
             model.delete(m);
 
             Console.WriteLine("Record Deleted Successfully");
@@ -63,19 +63,19 @@ namespace Advance.Net.p01ado.net
             MarksheetModel model = new MarksheetModel();
             IList list = new ArrayList();
 
-            m.Id = 2;
+            m.iD = 2;
             list = model.search();
 
             foreach (Object o in list)
             {
                 m = (Marksheet)o;
-                Console.WriteLine(m.Id);
-                Console.WriteLine(m.RollNo);
-                Console.WriteLine(m.FName);
-                Console.WriteLine(m.LName);
-                Console.WriteLine(m.Physics);
-                Console.WriteLine(m.Chemistry);
-                Console.WriteLine(m.Maths);
+                Console.Write(m.iD + "\t");
+                Console.Write(m.rollNo + "\t");
+                Console.Write(m.fName + "\t");
+                Console.Write(m.lName + "\t");
+                Console.Write(m.physics + "\t");
+                Console.Write(m.chemistry + "\t");
+                Console.WriteLine(m.maths);
             }
         }
         public static void testUpdate()
@@ -83,13 +83,13 @@ namespace Advance.Net.p01ado.net
             Marksheet m = new Marksheet();
             MarksheetModel model = new MarksheetModel();
 
-            m.Id = 4;
-            m.RollNo = "sk2004";
-            m.FName = "Rahul";
-            m.LName = "Verma";
-            m.Physics = 55;
-            m.Chemistry = 48;
-            m.Maths = 62;
+            m.iD = 4;
+            m.rollNo = "sk2004";
+            m.fName = "Rahul";
+            m.lName = "Verma";
+            m.physics = 55;
+            m.chemistry = 48;
+            m.maths = 62;
             model.update(m);
 
             Console.WriteLine("Record Updated Successfully");
@@ -100,12 +100,12 @@ namespace Advance.Net.p01ado.net
             Marksheet m = new Marksheet();
             MarksheetModel model = new MarksheetModel();
 
-            m.RollNo = "sk2003";
-            m.FName = "Aniket";
-            m.LName = "Kumawat";
-            m.Physics = 52;
-            m.Chemistry = 67;
-            m.Maths = 78;
+            m.rollNo = "sk2005";
+            m.fName = "Pankaj";
+            m.lName = "Rathod";
+            m.physics = 35;
+            m.chemistry = 64;
+            m.maths = 81;
 
             model.add(m);
             Console.WriteLine("Record Inserted Successfully");

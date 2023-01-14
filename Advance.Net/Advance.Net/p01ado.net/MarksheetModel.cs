@@ -20,16 +20,16 @@ namespace Advance.Net.p01ado.net
          */
         public void update(Marksheet m)
         {
-            string sql = "update marksheet set rollNo = @rollno, fName = @fname, lName = @lname, Physics = @physics, Chemistry = @chemistry, Maths = @maths where id = @id";
+            string sql = "UPDATE MARKSHEET SET rollNo = @rollno, fName = @fname, lName = @lname, Physics = @physics, Chemistry = @chemistry, Maths = @maths where id = @id";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
-            cm.Parameters.Add(new MySqlParameter("rollno", m.RollNo));
-            cm.Parameters.Add(new MySqlParameter("fname", m.FName));
-            cm.Parameters.Add(new MySqlParameter("lname", m.LName));
-            cm.Parameters.Add(new MySqlParameter("physics", m.Physics));
-            cm.Parameters.Add(new MySqlParameter("chemistry", m.Chemistry));
-            cm.Parameters.Add(new MySqlParameter("maths", m.Maths));
-            cm.Parameters.Add(new MySqlParameter("id", m.Id));
+            cm.Parameters.Add(new MySqlParameter("rollno", m.rollNo));
+            cm.Parameters.Add(new MySqlParameter("fname", m.fName));
+            cm.Parameters.Add(new MySqlParameter("lname", m.lName));
+            cm.Parameters.Add(new MySqlParameter("physics", m.physics));
+            cm.Parameters.Add(new MySqlParameter("chemistry", m.chemistry));
+            cm.Parameters.Add(new MySqlParameter("maths", m.maths));
+            cm.Parameters.Add(new MySqlParameter("id", m.iD));
             MySqlTransaction tx = conn.BeginTransaction();
 
             try
@@ -49,10 +49,10 @@ namespace Advance.Net.p01ado.net
          */
         public void delete(Marksheet m)
         {
-            string sql = "delete from marksheet where id = @id";
+            string sql = "DELETE FROM MARKSHEET WHERE id = @id";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
-            cm.Parameters.Add(new MySqlParameter("id", m.Id));
+            cm.Parameters.Add(new MySqlParameter("id", m.iD));  
             MySqlTransaction tx = conn.BeginTransaction();
 
             try
@@ -74,7 +74,7 @@ namespace Advance.Net.p01ado.net
         {
 
             int pk = 0;
-            string sql = "select max(ID) from MARKSHEET";
+            string sql = "SELECT MAX(ID) FROM MARKSHEET";
             MySqlCommand cm = new MySqlCommand(sql, conn);
             try
             {
@@ -97,17 +97,17 @@ namespace Advance.Net.p01ado.net
          */
         public void add(Marksheet m)
         {
-            string sql = "INSERT INTO MARKSHEET values (@id,@rollno,@fname,@lname,@physics,@chemistry,@maths)";
+            string sql = "INSERT INTO MARKSHEET VALUES (@id,@rollno,@fname,@lname,@physics,@chemistry,@maths)";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
 
             cm.Parameters.Add(new MySqlParameter("id", nextPK()));
-            cm.Parameters.Add(new MySqlParameter("rollno", m.RollNo));
-            cm.Parameters.Add(new MySqlParameter("fname", m.FName));
-            cm.Parameters.Add(new MySqlParameter("lname", m.LName));
-            cm.Parameters.Add(new MySqlParameter("physics", m.Physics));
-            cm.Parameters.Add(new MySqlParameter("chemistry", m.Chemistry));
-            cm.Parameters.Add(new MySqlParameter("maths", m.Maths));
+            cm.Parameters.Add(new MySqlParameter("rollno", m.rollNo));
+            cm.Parameters.Add(new MySqlParameter("fname", m.fName));
+            cm.Parameters.Add(new MySqlParameter("lname", m.lName));
+            cm.Parameters.Add(new MySqlParameter("physics", m.physics));
+            cm.Parameters.Add(new MySqlParameter("chemistry", m.chemistry));
+            cm.Parameters.Add(new MySqlParameter("maths", m.maths));
             MySqlTransaction tx = conn.BeginTransaction(); 
             try
             {
@@ -127,8 +127,8 @@ namespace Advance.Net.p01ado.net
          */
         public IList search()
         {
-            Marksheet m = new Marksheet();
-            string sql = "Select * from marksheet";
+            Marksheet m ;
+            string sql = "SELECT * FROM MARKSHEET";
             conn.Open();
 
             MySqlCommand cm = new MySqlCommand(sql, conn);
@@ -138,13 +138,14 @@ namespace Advance.Net.p01ado.net
                 MySqlDataReader sdr = cm.ExecuteReader();
                 while (sdr.Read())
                 {
-                    m.Id = sdr.GetInt32(0);
-                    m.RollNo = sdr.GetString(1);
-                    m.FName = sdr.GetString(2);
-                    m.LName = sdr.GetString(3);
-                    m.Physics = sdr.GetInt32(4);
-                    m.Chemistry = sdr.GetInt32(5);
-                    m.Maths = sdr.GetInt32(6);
+                   m = new Marksheet();
+                    m.iD = sdr.GetInt32(0);
+                    m.rollNo = sdr.GetString(1);
+                    m.fName = sdr.GetString(2);
+                    m.lName = sdr.GetString(3);
+                    m.physics = sdr.GetInt32(4);
+                    m.chemistry = sdr.GetInt32(5);
+                    m.maths = sdr.GetInt32(6);
 
                     list.Add(m);
                 }
@@ -163,7 +164,7 @@ namespace Advance.Net.p01ado.net
         public Marksheet findById(long id)
         {
             Marksheet m = new Marksheet();
-            string sql = "Select * from marksheet where id = @id";
+            string sql = "SELECT * FROM MARKSHEET WHERE id = @id";
             conn.Open();
             MySqlCommand cm = new MySqlCommand(sql, conn);
             cm.Parameters.Add(new MySqlParameter("id", id));
@@ -174,13 +175,13 @@ namespace Advance.Net.p01ado.net
                 while (sdr.Read())
                 {
                     
-                    m.Id = sdr.GetInt32(0);
-                    m.RollNo = sdr.GetString(1);
-                    m.FName = sdr.GetString(2);
-                    m.LName = sdr.GetString(3);
-                    m.Physics = sdr.GetInt32(4);
-                    m.Chemistry = sdr.GetInt32(5);
-                    m.Maths = sdr.GetInt32(6);
+                    m.iD = sdr.GetInt32(0);
+                    m.rollNo = sdr.GetString(1);
+                    m.fName = sdr.GetString(2);
+                    m.lName = sdr.GetString(3);
+                    m.physics = sdr.GetInt32(4);
+                    m.chemistry = sdr.GetInt32(5);
+                    m.maths = sdr.GetInt32(6);
                     
                 }
             }

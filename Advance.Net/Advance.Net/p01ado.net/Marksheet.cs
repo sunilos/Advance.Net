@@ -6,44 +6,44 @@
         private string rollno;
         private string fname;
         private string lname;
-        private int physics;
-        private int chemistry;
-        private int maths;
+        private int phy;
+        private int chem;
+        private int math;
 
-        public int Id   // property
+        public int iD   // property
         {
             get { return id; }   // get method
             set { id = value; }  // set method
         }
-        public string RollNo   // property
+        public string rollNo   // property
         {
             get { return rollno; }   // get method
             set { rollno = value; }  // set method
         }
-        public string FName   // property
+        public string fName   // property
         {
             get { return fname; }   // get method
             set { fname = value; }  // set method
         }
-        public string LName   // property
+        public string lName   // property
         {
             get { return lname; }   // get method
             set { lname = value; }  // set method
         }
-        public int Physics   // property
+        public int physics   // property
         {
-            get { return physics; }   // get method
-            set { physics = value; }  // set method
+            get { return phy; }   // get method
+            set { phy = value; }  // set method
         }
-        public int Chemistry   // property
+        public int chemistry   // property
         {
-            get { return chemistry; }   // get method
-            set { chemistry = value; }  // set method
+            get { return chem; }   // get method
+            set { chem = value; }  // set method
         }
-        public int Maths   // property
+        public int maths   // property
         {
-            get { return maths; }   // get method
-            set { maths = value; }  // set method
+            get { return math; }   // get method
+            set { math = value; }  // set method
         }
     }
 }
